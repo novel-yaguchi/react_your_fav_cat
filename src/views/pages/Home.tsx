@@ -1,10 +1,12 @@
 import React from 'react';
 import cat from '../../img/cat.png';
+import Modal from './Modal';
 import '../../style/App.scss';
 
 function Home() {
   return (
     <div className="home-main">
+      {/* <Modal /> */}
       <div className="home-content">
         <div className="home-main--title">
           ホーム

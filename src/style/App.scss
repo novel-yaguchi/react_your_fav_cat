@@ -87,7 +87,7 @@ body {
     display: flex;
     padding: 0.52rem 1.75rem;
     text-align: left;
-    &.router-link-active {
+    &.active {
       background-color: $hilight-color
     }
   }
@@ -254,5 +254,72 @@ body {
     font-size: 0.875rem;
     font-weight: bold;
     color: #888888;
+  }
+}
+
+#overlay {
+  display:flex;
+  z-index:1;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-modal{
+  display: flex;
+  position: relative;
+  z-index:2;
+  height: 80%;
+  width: 63%;
+  border-radius: 1%;
+  padding: 2rem;
+  background: white;
+  position: space-between;
+
+  &--back {
+    position: absolute;
+    right: 1.25rem;
+  }
+  &--img {
+    width: 36rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  &--cat {
+    width: 100%;
+    height: auto;
+  }
+  &--button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  &--icon {
+    justify-content: flex-end;
+  }
+    &--favoritebutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.25rem;
+    width: 10.5rem;
+    border-radius: 1.25rem;
+    background-color: #f7f285;
+  }
+  &--favoriteimg {
+    height: 0.9375rem;
+    width: 0.9375rem;
+  }
+  &--text {
+
+    font-size: 11px;
   }
 }

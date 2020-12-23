@@ -1,6 +1,6 @@
 import React from 'react';
 import './style/App.scss';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 
 function Navigation()  {
@@ -10,8 +10,8 @@ function Navigation()  {
         <p >Your Fav Cats</p>
       </div>
       <div className="navigator-menu">
-        <Link className="navigator-menu--link navigator-menu--item" to="/">ホーム</Link>
-        <Link className="navigator-menu--link navigator-menu--item" to="/find">ねこをさがす</Link>
+        <NavLink className="navigator-menu--link navigator-menu--item" exact to="/">ホーム</NavLink>
+        <NavLink className="navigator-menu--link navigator-menu--item" exact to="/find">ねこをさがす</NavLink>
       </div>
     </div>
   );
