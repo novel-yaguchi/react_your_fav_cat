@@ -9,6 +9,7 @@ import close from '../../img/ico_close.svg';
 import star from '../../img/star.svg';
 import { reduceEachTrailingCommentRange } from 'typescript';
 import { findByLabelText } from '@testing-library/react';
+import API from '../../api'
 
 const customStyles = {
   content: {
@@ -28,9 +29,12 @@ const customStyles = {
   }
 };
 
-function Home() {
+async function Home() {
 
-  var subtitle : any;
+  var subtitle: any;
+
+  const s: any = await API.getCatImage();
+  <img src={s} />
 
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {

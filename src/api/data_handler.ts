@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AxiosRequestConfig, AxiosError, ResponseType } from "axios";
 
-declare const Buffer;
+declare const Buffer : any;
 
 type Data = null | undefined | string;
 
