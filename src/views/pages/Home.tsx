@@ -10,6 +10,7 @@ import star from '../../img/star.svg';
 import { reduceEachTrailingCommentRange } from 'typescript';
 import { findByLabelText } from '@testing-library/react';
 import API from '../../api'
+import { useState, useEffect } from 'react';
 
 const customStyles = {
   content: {
@@ -29,12 +30,28 @@ const customStyles = {
   }
 };
 
-async function Home() {
+function Home() {
 
   var subtitle: any;
+  const [recommendationImage, setRecommendationImage] = useState(undefined);
 
-  const s: any = await API.getCatImage();
-  <img src={s} />
+  async function getCatImage() {
+    const image: any = await API.getCatImage();
+    setRecommendationImage(image);
+    return (<img src = { recommendationImage } ></img>)
+  }
+
+  async function loadCatData() {
+    const catInfo: any = API.loadCatData();
+    console.log(catInfo)
+    // setRecommendationImage(image);
+    return 
+  }
+
+  useEffect(() => {
+    getCatImage()
+    loadCatData()
+  }, []);
 
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
@@ -46,8 +63,12 @@ async function Home() {
     subtitle.style.color = '#f00';
   }
 
-  function closeModal(){
+  function closeModal() {
     setIsOpen(false);
+  }
+
+  function saveFavorite() {
+    API.saveCatData(recommendationImage)
   }
 
   return (
@@ -65,13 +86,14 @@ async function Home() {
             <img src={close} />
           </div>
           <div className="home-modal--img">
-            <img className="home-modal--cat" src={cat} />
+            <img className="home-modal--cat" src={recommendationImage} />
+            {/* <img className="home-modal--cat" src={cat} /> */}
           </div>
           <div className="home-modal--button">
             <div className="home-modal--icon">
               <div className="home-modal--favoritebutton">
                 <img className="home-modal--favoriteimg" src={star} />
-                <div className="home-modal--text">お気に入りに追加する</div>
+                <div className="home-modal--text" onClick={saveFavorite}>お気に入りに追加する</div>
               </div>
             </div> 
           </div>
@@ -87,7 +109,7 @@ async function Home() {
             本日のおすすめ
           </div>
           <div className="home-recommend--icon" onClick={openModal}>
-            <img className="home-recommend--img" src={cat} />
+            <img className="home-recommend--img" src={recommendationImage} />
             <div className="home-recommend--button">
               <img className="home-recommend--svg" src={star} />
             </div>
