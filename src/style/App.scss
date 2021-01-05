@@ -281,7 +281,7 @@ body {
   padding: 2rem;
   background: white;
   position: space-between;
-
+  
   &--back {
     position: absolute;
     right: 1.25rem;
@@ -295,7 +295,7 @@ body {
   }
   &--cat {
     width: 100%;
-    height: auto;
+    height: 100%;
   }
   &--button {
     display: flex;
@@ -303,6 +303,7 @@ body {
     align-items: flex-end;
   }
   &--icon {
+    margin-top: 80px;
     justify-content: flex-end;
   }
     &--favoritebutton {
@@ -314,6 +315,17 @@ body {
     border-radius: 1.25rem;
     background-color: #f7f285;
   }
+  &--removebutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.25rem;
+    width: 10.5rem;
+    border: solid 1px;
+    border-radius: 1.25rem;
+    border-color: #f7f285;
+    // background-color: #f7f285;
+  }
   &--favoriteimg {
     height: 0.9375rem;
     width: 0.9375rem;
@@ -321,6 +333,23 @@ body {
   &--text {
 
     font-size: 11px;
+  }
+  &--item {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+
+  }
+  &--favorite {
+    margin-left: 10px
+    &--text {
+      font-size: 16px;
+      color: #000000;
+      font-weight: bold;
+    }
+    &--date {
+      font-size: 20px;
+    }
   }
 }
 
