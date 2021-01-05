@@ -1,5 +1,4 @@
 import React from 'react';
-import cat from '../../img/cat.png';
 import '../../style/App.scss';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
@@ -33,8 +32,6 @@ const customStyles = {
 function Home() {
   const [recommendationImage, setRecommendationImage] = useState('');
   const [catInfo , setCatInfo] = useState<Data>(undefined);
-  // const catInfo = useState<Data>(undefined);
-  // const setCatInfo = useState<Data>(undefined);
 
   async function getCatImage() {
     const image = await API.getCatImage();
@@ -47,21 +44,16 @@ function Home() {
     setCatInfo(catInfo);
   }
 
-  // let listItems: Data;
+  let listItems;
 
-  // if (catInfo) {
-    const numbers = [1, 2, 3, 4, 5];
-    let listItems = catInfo.map((number) =>
-      // <li>{numbers}</li>
-      <div className="home-favorite--icon" >
-        <img className="home-favorite--img" src={cat} />
-        {/* <div className="home-favorite--day">{catInfo[0].date.getDate()}</div> */}
+  if (catInfo) {
+    listItems = catInfo.map((cat) =>
+      <div className="home-favorite--icon" onClick={openModal}>
+        <img className="home-favorite--img" src={cat.image} />
+        <div className="home-favorite--day">{cat.date.getFullYear()}/{cat.date.getMonth()}/{cat.date.getDate()} {cat.date.getHours()}:{cat.date.getMinutes()}</div>
       </div >
     );
-  // }
-
-
-
+  }
 
   useEffect(() => {
     getCatImage()
@@ -94,41 +86,6 @@ function Home() {
     closeModal();
   }
 
-  function DisplayFavorite() {
-    if (!catInfo) {
-      return <div />;
-    }
-
-    // console.log(catInfo);
-
-
-
-//     ReactDOM.render(
-
-//   document.getElementById('root')
-// );
-
-
-    // return (
-    // for (let i = 0; catInfo.length > i; i++) {
-    //   console.log("favorite image");
-    //   <div className="home-favorite--icon" >
-    //     <img className="home-favorite--img" src={cat} />
-    //     <div className="home-favorite--day">{catInfo[0].date.getDate()}</div>
-    //   </div >
-    // }
-    // )
-
-    // return (
-    //   <div className="home-favorite--icon" >
-    //     <img className="home-favorite--img" src={catInfo[0].image} />
-    //     <div className="home-favorite--day">{catInfo[0].date.getFullYear()}/{catInfo[0].date.getMonth()}/{catInfo[0].date.getDate()} {catInfo[0].date.getHours()}:{catInfo[0].date.getMinutes()}</div>
-    //   </div >
-    // )
-  }
-
-  
-
   return (
     <div className="home-main">
       <div>
@@ -153,6 +110,30 @@ function Home() {
             </div> 
           </div>
         </Modal>
+        {/* <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div className="home-modal--back" onClick={closeModal}>
+            <img src={close} />
+          </div>
+          <div className="home-modal--img">
+            <img className="home-modal--cat" src={recommendationImage} />
+          </div>
+          <div>
+            お気に入り登録日
+          </div>
+          <div className="home-modal--button" onClick={saveFavorite}>
+            <div className="home-modal--icon">
+              <div className="home-modal--favoritebutton">
+                <img className="home-modal--favoriteimg" src={star} />
+                <div className="home-modal--text" >お気に入りからはずす</div>
+              </div>
+            </div> 
+          </div>
+        </Modal> */}
       </div>
 
       <div className="home-content">
@@ -175,8 +156,7 @@ function Home() {
             あなたのお気に入り
           </div>
           <div className="home-favorite--list">
-            {/* < DisplayFavorite /> */}
-            <ul>{listItems}</ul>,
+            { listItems }
           </div>
         </div>
       </div>
