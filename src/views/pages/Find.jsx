@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from 'react';
+import serch from '../../img/serch.svg';
 import '../../style/App.scss';
 import Modal from 'react-modal';
 import close from '../../img/ico_close.svg';
@@ -25,46 +26,48 @@ const customStyles = {
   }
 };
 
-function FavoriteList(props) {
-  const favoriteCatList = !props.catInfo
-    ? []
-    : props.catInfo.map((cat) => <FavoriteItem cat={cat} openModal={props.openModal}/>)
-
+function FindList(props) {
+  // console.log('check1', props.searchCat);
+  const searchCatList = !props.searchCat
+  ? []
+  : props.searchCat.map((catList) => <SearchItem catList={catList} openModal={props.openModal}/>)
+  
+  // console.log('check2', props.searchCat);
   return (
-    <div className="home-favorite--list">
-      {favoriteCatList}
+    <div className="find-list">
+      {!props.searchCat
+        ? (
+          <div className="find-list--serch">
+            <img className="find-list--img" src={serch} />
+            <div className="find-list--text">
+              あなたの気に入るねこを探してみよう
+        </div>
+          </div>
+        )
+        : (
+          <div className="find-list--serch">
+            <div className="home-favorite--list">
+              {searchCatList}
+            </div>
+          </div>
+        )
+      }
     </div>
   )
 }
+  
+function SearchItem(props) {
+  const cat = props.catList;
+  console.log('image', cat)
 
-function FavoriteItem(props) {
-  const cat = props.cat;
+  // console.log('itemtest',catList);
 
-  const formattedDate = formatDate(cat.date);
+  // const formattedDate = formatDate(cat.date);
 
   return (
     <div className="home-favorite--icon" onClick={() => { props.openModal(cat) }}>
-      <img className="home-favorite--img" src={cat.image} />
-      <div className="home-favorite--day">	
-        {formattedDate}
-      </div>
+      <img className="home-favorite--img" src={cat} />
     </div >
-  )
-}
-
-function RecommendItem(props) {
-  const cat = {
-    image: props.catImage,
-    date: undefined
-  }
-
-  return (
-    <div className="home-recommend--icon" onClick={() => { props.openModal(cat) }}>
-      <img className="home-recommend--img" src={cat.image} />
-      <div className="home-recommend--button">
-        <img className="home-recommend--svg" src={star} />
-      </div>
-    </div>
   )
 }
 
@@ -118,27 +121,22 @@ function ModalItem(props) {
   )
 }
 
-function Home() {
+function Find() {
   const [recommendationImage, setRecommendationImage] = useState('');
   const [catInfo, setCatInfo] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalCat, setModalCat] = useState({});
+  const [searchCat, setSearchCat] = useState(undefined);
 
-  async function getCatImage() {
-    const image = await API.getCatImage();
-    setRecommendationImage(image);
+  async function getCatImagesWithKeyword() {
+    let keyword = document.getElementsByClassName('find-serch--input');
+
+    console.log(keyword[0].value);
+
+    const getSearchCat = await API.getCatImagesWithKeyword(10, keyword[0].value);
+    console.log(searchCat);
+    setSearchCat(getSearchCat);
   }
-
-  async function loadCatData() {
-    const catInfo = await API.loadCatData();
-    setCatInfo(catInfo);
-  }
-
-  useEffect(() => {
-    getCatImage()
-    loadCatData()
-  }, []);
-
 
   function openModal(cat) {
     setIsOpen(true);
@@ -183,7 +181,7 @@ function Home() {
   }
 
   return (
-    <div className="home-main">
+    <div className="find-main">
       <div>
         <Modal
           isOpen={modalIsOpen}
@@ -206,31 +204,22 @@ function Home() {
         </Modal>
       </div>
 
-      <div className="home-content">
-        <div className="home-main--title">
-          ホーム
+      <div className="find-content">
+        <div className="find-main--title">
+          ねこをさがす
         </div>
-        <div className="home-recommend">
-          <div className="home-recommend--title">
-            本日のおすすめ
-          </div>
-          <RecommendItem
-            catImage={recommendationImage}
-            openModal={openModal}
-          />
+        <div className="find-serch">
+          <input className="find-serch--input" placeholder="キーワード" />
+          <button className="find-serch--button" onClick={getCatImagesWithKeyword} >さがす</button>
         </div>
-        <div className="home-favorite">
-          <div className="home-favorite--title">
-            あなたのお気に入り
-          </div>
-          <FavoriteList
-            catInfo={catInfo}
-            openModal={openModal}
-          />
-        </div>
+        <div className="find-line" />
+        <FindList
+          searchCat={searchCat}
+          openModal={openModal}
+        />
       </div>
     </div>
   );
 }
 
-export default Home;
+export default Find;
