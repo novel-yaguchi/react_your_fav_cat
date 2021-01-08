@@ -118,7 +118,7 @@ function ModalItem(props) {
   )
 }
 
-function Home() {
+function Home(props) {
   const [recommendationImage, setRecommendationImage] = useState('');
   const [catInfo, setCatInfo] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -145,10 +145,10 @@ function Home() {
     setModalCat(cat);
   }
 
-  function closeModal() {
-    setIsOpen(false);
-    setModalCat({});
-  }
+  // function closeModal() {
+  //   setIsOpen(false);
+  //   setModalCat({});
+  // }
 
   function saveFavorite() {
 
@@ -200,7 +200,7 @@ function Home() {
           <ModalItem
             saveFavorite={saveFavorite}
             removeFavorite={removeFavorite}
-            closeModal={closeModal}
+            closeModal={props.closeModal}
             cat={modalCat}
           />
         </Modal>
