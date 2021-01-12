@@ -182,7 +182,7 @@ function Find() {
 
   return (
     <div className="find-main">
-      <div>
+      {/* <div>
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
@@ -202,7 +202,7 @@ function Find() {
             cat={modalCat}
           />
         </Modal>
-      </div>
+      </div> */}
 
       <div className="find-content">
         <div className="find-main--title">

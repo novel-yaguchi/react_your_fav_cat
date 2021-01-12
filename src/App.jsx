@@ -87,6 +87,7 @@ function App() {
   const [modalCat, setModalCat] = useState({});
 
   function openModal(cat) {
+    console.log("openModal");
     setIsOpen(true);
     setModalCat(cat);
   }
@@ -152,7 +153,10 @@ function App() {
       <Router>
         <Route path="/" component={Navigation} />
         {/* <Route path="/" exact component={Home} /> */}
-        <Route path="/" render={() => <Home closeModal={closeModal}/>} />
+        <Route path="/" render={() => <Home
+          closeModal={closeModal}
+          openModal={openModal}
+        />} />
         <Route path="/find" exact component={Find} />
       </Router>
     </div>

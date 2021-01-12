@@ -5,7 +5,6 @@ import close from '../../img/ico_close.svg';
 import star from '../../img/star.svg';
 import API from '../../api'
 
-
 const customStyles = {
   content: {
     display: 'flex',
@@ -53,6 +52,7 @@ function FavoriteItem(props) {
 }
 
 function RecommendItem(props) {
+  console.log(props);
   const cat = {
     image: props.catImage,
     date: undefined
@@ -119,6 +119,7 @@ function ModalItem(props) {
 }
 
 function Home(props) {
+  console.log(props);
   const [recommendationImage, setRecommendationImage] = useState('');
   const [catInfo, setCatInfo] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -145,10 +146,10 @@ function Home(props) {
     setModalCat(cat);
   }
 
-  // function closeModal() {
-  //   setIsOpen(false);
-  //   setModalCat({});
-  // }
+  function closeModal() {
+    setIsOpen(false);
+    setModalCat({});
+  }
 
   function saveFavorite() {
 
@@ -165,7 +166,7 @@ function Home(props) {
 
     API.saveCatData(newCatInfo);
 
-    closeModal();
+    props.closeModal();
   }
 
   function removeFavorite() {
@@ -179,7 +180,7 @@ function Home(props) {
 
     API.saveCatData(filtered_cat);
 
-    closeModal();
+    props.closeModal();
   }
 
   return (
@@ -187,11 +188,11 @@ function Home(props) {
       <div>
         <Modal
           isOpen={modalIsOpen}
-          onRequestClose={closeModal}
+          onRequestClose={props.closeModal}
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <div className="home-modal--back" onClick={closeModal}>
+          <div className="home-modal--back" onClick={props.closeModal}>
             <img src={close} />
           </div>
           <div className="home-modal--img">
@@ -216,7 +217,7 @@ function Home(props) {
           </div>
           <RecommendItem
             catImage={recommendationImage}
-            openModal={openModal}
+            openModal={props.openModal}
           />
         </div>
         <div className="home-favorite">
@@ -225,7 +226,7 @@ function Home(props) {
           </div>
           <FavoriteList
             catInfo={catInfo}
-            openModal={openModal}
+            openModal={props.openModal}
           />
         </div>
       </div>
