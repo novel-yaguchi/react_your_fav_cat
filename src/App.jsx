@@ -86,8 +86,22 @@ function App() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalCat, setModalCat] = useState({});
 
+  async function getCatImage() {
+    const image = await API.getCatImage();
+    setRecommendationImage(image);
+  }
+
+  async function loadCatData() {
+    const catInfo = await API.loadCatData();
+    setCatInfo(catInfo);
+  }
+
+  useEffect(() => {
+    getCatImage()
+    loadCatData()
+  }, []);
+
   function openModal(cat) {
-    console.log("openModal");
     setIsOpen(true);
     setModalCat(cat);
   }
@@ -98,11 +112,9 @@ function App() {
   }
 
   function saveFavorite() {
-
     if (!catInfo) {
       return;
     };
-    console.log("お気に入り追加")
     const newCatInfo = catInfo.concat([{
       image: recommendationImage,
       date: new Date()
@@ -152,12 +164,14 @@ function App() {
       </Modal>
       <Router>
         <Route path="/" component={Navigation} />
-        {/* <Route path="/" exact component={Home} /> */}
-        <Route path="/" render={() => <Home
-          closeModal={closeModal}
+        <Route path="/" exact render={() => <Home
           openModal={openModal}
+          closeModal={closeModal}
         />} />
-        <Route path="/find" exact component={Find} />
+        <Route path="/find" exact render={() => <Find
+          openModal={openModal}
+          closeModal={closeModal}
+        />} />
       </Router>
     </div>
   );
