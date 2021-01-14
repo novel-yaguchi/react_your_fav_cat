@@ -7,7 +7,7 @@ import API from '../../api'
 function FindList(props) {
   const searchCatList = !props.searchCat
   ? []
-  : props.searchCat.map((catList) => <SearchItem catList={catList} openModal={props.openModal}/>)
+    : props.searchCat.map((catList, idx) => <SearchItem catList={catList} openModal={props.openModal} idx={idx}/>)
   
   return (
     <div className="find-list">
@@ -21,10 +21,16 @@ function FindList(props) {
           </div>
         )
         : (
-
           <div>
             <div className="find-list--keyword">
-              キーワード:
+              {props.searchText
+                ? (
+                  'キーワード:' + props.searchText
+                  )
+                  : (
+                  'キーワード:なし'
+                )
+              }
             </div>
             <div className="find-list--search">
               {searchCatList}
@@ -37,36 +43,46 @@ function FindList(props) {
 }
   
 function SearchItem(props) {
+  // console.log(props.idx);
+  // console.log(props.catList);
   const cat = {
     image: props.catList,
-    date: undefined
+    date: undefined,
+    idx: props.idx
   }
 
   return (
     <div className="home-search--icon" onClick={() => { props.openModal(cat) }}>
       <img className="home-recommend--img" src={cat.image} />
-      <div className="home-recommend--button">
-        <img className="home-recommend--svg" src={star} />
-      </div>
+      {props.searchText
+        ? (
+          <div className="home-recommend--button">
+            <img className="home-recommend--svg" src={star} />
+          </div>
+        )
+        : (
+          <div className="home-recommend--button">
+            <img className="home-recommend--svg" src={star} />
+          </div>
+        )
+      }
     </div>
   )
 }
 
 function Find(props) {
   const [searchCat, setSearchCat] = useState(undefined);
+  const [searchText, setSearchText] = useState('');
+  // const [modalCat, setModalCat] = useState({});
 
   async function getCatImagesWithKeyword() {
-    let keyword = document.getElementsByClassName('find-serch--input');
-
-    console.log(keyword[0].value);
-
-    const getSearchCat = await API.getCatImagesWithKeyword(10, keyword[0].value);
-    console.log(getSearchCat);
+    const getSearchCat = await API.getCatImagesWithKeyword(10, searchText);
     setSearchCat(getSearchCat);
   }
 
-  function textChange(t) {
-console.log(t)
+  function changeText(event) {
+    setSearchText(event.target.value);
+    console.log(event.target.value)
   }
 
   return (
@@ -76,12 +92,13 @@ console.log(t)
           ねこをさがす
         </div>
         <div className="find-serch">
-          <input className="find-serch--input" placeholder="キーワード" onChange={() => textChange()} />
+          <input className="find-serch--input" placeholder="キーワード" onChange={changeText} />
           <button className="find-serch--button" onClick={getCatImagesWithKeyword} >さがす</button>
         </div>
         <div className="find-line" />
         <FindList
           searchCat={searchCat}
+          searchText={searchText}
           openModal={props.openModal}
           closeModal={props.closeModal}
         />

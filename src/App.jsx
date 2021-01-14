@@ -41,6 +41,7 @@ function formatDate(date) {
 
 function ModalItem(props) {
   const cat = props.cat
+  console.log(cat)
 
   return (
     <div className="home-modal--item">
@@ -85,6 +86,7 @@ function App() {
   const [catInfo, setCatInfo] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalCat, setModalCat] = useState({});
+  const [favoriteList, setFavoriteList] = useState([10]);
 
   async function getCatImage() {
     const image = await API.getCatImage();
@@ -102,6 +104,7 @@ function App() {
   }, []);
 
   function openModal(cat) {
+    // console.log(cat);
     setIsOpen(true);
     setModalCat(cat);
   }
@@ -112,6 +115,17 @@ function App() {
   }
 
   function saveFavorite() {
+
+    console.log('リスト デフォルト', favoriteList)
+    console.log('チェック対象番目', modalCat.idx)
+
+    let newFavoriteList = [true, 0]
+    setFavoriteList(newFavoriteList);
+
+    console.log('リスト セット後', favoriteList)
+
+    // setFavoriteList(modalCat.idx);
+    
     if (!catInfo) {
       return;
     };
@@ -154,6 +168,7 @@ function App() {
         </div>
         <div className="home-modal--img">
           <img className="home-modal--cat" src={modalCat.image} />
+          {/* {modalCat} */}
         </div>
         <ModalItem
           saveFavorite={saveFavorite}
@@ -171,6 +186,7 @@ function App() {
         <Route path="/find" exact render={() => <Find
           openModal={openModal}
           closeModal={closeModal}
+          favoriteList={favoriteList}
         />} />
       </Router>
     </div>
