@@ -44,9 +44,6 @@ function FindList(props) {
 }
   
 function SearchItem(props) {
-    console.log(props.favoriteList[1]);
-  console.log(props.idx, props.favoriteList[(props.idx)]);
-  // console.log(props.catList);
   const cat = {
     image: props.catList,
     date: undefined,
@@ -56,14 +53,14 @@ function SearchItem(props) {
   return (
     <div className="home-search--icon" onClick={() => { props.openModal(cat) }}>
       <img className="home-recommend--img" src={cat.image} />
-      {props.searchText
+      {props.favoriteList
         ? (
           <div className="home-recommend--button">
             <img className="home-recommend--svg" src={star} />
           </div>
         )
         : (
-          <div className="home-recommend--button">
+          <div className="home-recommend--button--added">
             <img className="home-recommend--svg" src={star} />
           </div>
         )
@@ -73,6 +70,7 @@ function SearchItem(props) {
 }
 
 function Find(props) {
+      console.log(props.favoriteList[1]);
   const [searchCat, setSearchCat] = useState(undefined);
   const [searchText, setSearchText] = useState('');
   // const [modalCat, setModalCat] = useState({});

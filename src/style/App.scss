@@ -151,6 +151,16 @@ body {
     position: absolute;
     top: 73%;
     right: 4%;
+    &--added {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background-color: #f7f285;
+    position: absolute;
+    top: 73%;
+    right: 4%;
+    background-color: #FFFFFF;
+    }
   }
   &--svg {
     position: absolute;

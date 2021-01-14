@@ -9,6 +9,8 @@ import close from './img/ico_close.svg';
 import star from './img/star.svg';
 import API from './api'
 import { useState, useEffect } from 'react';
+import { RSA_PKCS1_OAEP_PADDING } from 'constants';
+import { isPropertyAccessChain } from 'typescript';
 
 const customStyles = {
   content: {
@@ -40,11 +42,18 @@ function formatDate(date) {
 }
 
 function ModalItem(props) {
-  const cat = props.cat
+  const cat = props.modalCat
+  const date = cat.date
+  
+  console.log(props.favoriteList)
+
+  if (props.favoriteList[cat.idx] != undefined)
+  date = props.favoriteList[cat.idx]
+  
 
   return (
     <div className="home-modal--item">
-      {cat.date
+      {cat.date　|| props.favoriteList[cat.idx]
         ? (
           <>
             <div className="home-modal--favorite">
@@ -52,7 +61,7 @@ function ModalItem(props) {
                 お気に入り登録日
                     </div>
               <div className="home-modal--favorite--date">
-                { formatDate(cat.date)}
+                { formatDate(date)}
               </div>
             </div>
             <div className="home-modal--button" onClick={props.removeFavorite}>
@@ -117,7 +126,10 @@ function App() {
     console.log('リスト デフォルト', favoriteList)
     console.log('チェック対象番目', modalCat.idx)
 
-    const newFavoriteList = favoriteList[modalCat.idx] = true
+    // favoriteList[modalCat.idx] = true;
+    favoriteList[modalCat.idx] = new Date();
+
+    const newFavoriteList = favoriteList
 
     // let newFavoriteList = [0] = true;
     setFavoriteList(newFavoriteList);
@@ -130,14 +142,25 @@ function App() {
     if (!catInfo) {
       return;
     };
-    const newCatInfo = catInfo.concat([{
-      image: recommendationImage,
-      date: new Date()
-    }])
 
-    setCatInfo(newCatInfo);
-
-    API.saveCatData(newCatInfo);
+    if (modalCat.idx) {
+      const newCatInfo = catInfo.concat([{
+        image: modalCat.image,
+        date: new Date()
+      }])
+ 
+      setCatInfo(newCatInfo);
+      API.saveCatData(newCatInfo);
+    }
+    else {
+      const newCatInfo = catInfo.concat([{
+        image: recommendationImage,
+        date: new Date()
+      }])
+ 
+      setCatInfo(newCatInfo);
+      API.saveCatData(newCatInfo);
+    }
 
     closeModal();
   }
@@ -146,6 +169,13 @@ function App() {
     const cat = {
       date: modalCat.date
     }
+
+    favoriteList[modalCat.idx] = false;
+
+    const newFavoriteList = favoriteList
+
+    // let newFavoriteList = [0] = true;
+    setFavoriteList(newFavoriteList);
 
     const filtered_cat = catInfo.filter(v => v.date.getTime() !== cat.date.getTime());
     
@@ -175,7 +205,8 @@ function App() {
           saveFavorite={saveFavorite}
           removeFavorite={removeFavorite}
           closeModal={closeModal}
-          cat={modalCat}
+          modalCat={modalCat}
+          favoriteList={favoriteList}
         />
       </Modal>
       <Router>
