@@ -57,13 +57,7 @@ function formatDate(date) {
 }
 
 function Home(props) {
-  const [recommendationImage, setRecommendationImage] = useState('');
   const [catInfo, setCatInfo] = useState(undefined);
-
-  async function getCatImage() {
-    const image = await API.getCatImage();
-    setRecommendationImage(image);
-  }
 
   async function loadCatData() {
     const catInfo = await API.loadCatData();
@@ -71,7 +65,6 @@ function Home(props) {
   }
 
   useEffect(() => {
-    getCatImage()
     loadCatData()
   }, []);
 
@@ -86,7 +79,7 @@ function Home(props) {
             本日のおすすめ
           </div>
           <RecommendItem
-            catImage={recommendationImage}
+            catImage={props.recommendationImage}
             openModal={props.openModal}
           />
         </div>

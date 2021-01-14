@@ -9,8 +9,6 @@ import close from './img/ico_close.svg';
 import star from './img/star.svg';
 import API from './api'
 import { useState, useEffect } from 'react';
-import { RSA_PKCS1_OAEP_PADDING } from 'constants';
-import { isPropertyAccessChain } from 'typescript';
 
 const customStyles = {
   content: {
@@ -43,9 +41,7 @@ function formatDate(date) {
 
 function ModalItem(props) {
   const cat = props.modalCat
-  const date = cat.date
-  
-  console.log(props.favoriteList)
+  let date = cat.date
 
   if (props.favoriteList[cat.idx] != undefined)
   date = props.favoriteList[cat.idx]
@@ -112,7 +108,6 @@ function App() {
   }, []);
 
   function openModal(cat) {
-    // console.log(cat);
     setIsOpen(true);
     setModalCat(cat);
   }
@@ -123,21 +118,9 @@ function App() {
   }
 
   function saveFavorite() {
-    console.log('リスト デフォルト', favoriteList)
-    console.log('チェック対象番目', modalCat.idx)
-
-    // favoriteList[modalCat.idx] = true;
     favoriteList[modalCat.idx] = new Date();
-
     const newFavoriteList = favoriteList
-
-    // let newFavoriteList = [0] = true;
     setFavoriteList(newFavoriteList);
-
-    console.log('リスト セット後', favoriteList)
-    console.log('リスト セット後 中', favoriteList[(modalCat.idx)])
-
-    // setFavoriteList(modalCat.idx);
     
     if (!catInfo) {
       return;
@@ -166,19 +149,30 @@ function App() {
   }
 
   function removeFavorite() {
+    let favoriteDate = favoriteList[modalCat.idx];
     const cat = {
       date: modalCat.date
     }
+
+    favoriteList[modalCat.idx] = undefined;
 
     favoriteList[modalCat.idx] = false;
 
     const newFavoriteList = favoriteList
 
-    // let newFavoriteList = [0] = true;
     setFavoriteList(newFavoriteList);
 
-    const filtered_cat = catInfo.filter(v => v.date.getTime() !== cat.date.getTime());
-    
+    let filtered_cat;
+
+    if (modalCat.idx == undefined) { 
+      filtered_cat = catInfo.filter(v => v.date.getTime() !== cat.date.getTime());
+    }
+    else {
+      filtered_cat = catInfo.filter(v => v.date.getTime() !== favoriteDate.getTime());
+    }
+
+
+
     setCatInfo(filtered_cat);
 
     API.saveCatData(filtered_cat);
@@ -214,6 +208,7 @@ function App() {
         <Route path="/" exact render={() => <Home
           openModal={openModal}
           closeModal={closeModal}
+          recommendationImage={recommendationImage}
         />} />
         <Route path="/find" exact render={() => <Find
           openModal={openModal}

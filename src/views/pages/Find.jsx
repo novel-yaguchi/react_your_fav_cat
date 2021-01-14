@@ -1,11 +1,10 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState} from 'react';
 import serch from '../../img/serch.svg';
 import '../../style/App.scss';
 import star from '../../img/star.svg';
 import API from '../../api'
 
 function FindList(props) {
-      console.log(props.favoriteList);
   const searchCatList = !props.searchCat
   ? []
     : props.searchCat.map((catList, idx) => <SearchItem catList={catList} openModal={props.openModal} idx={idx} favoriteList={props.favoriteList}/>)
@@ -70,10 +69,8 @@ function SearchItem(props) {
 }
 
 function Find(props) {
-      console.log(props.favoriteList[1]);
   const [searchCat, setSearchCat] = useState(undefined);
   const [searchText, setSearchText] = useState('');
-  // const [modalCat, setModalCat] = useState({});
 
   async function getCatImagesWithKeyword() {
     const getSearchCat = await API.getCatImagesWithKeyword(10, searchText);
@@ -82,7 +79,6 @@ function Find(props) {
 
   function changeText(event) {
     setSearchText(event.target.value);
-    console.log(event.target.value)
   }
 
   return (
