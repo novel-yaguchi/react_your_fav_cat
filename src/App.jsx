@@ -41,7 +41,6 @@ function formatDate(date) {
 
 function ModalItem(props) {
   const cat = props.cat
-  console.log(cat)
 
   return (
     <div className="home-modal--item">
@@ -86,7 +85,7 @@ function App() {
   const [catInfo, setCatInfo] = useState(undefined);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalCat, setModalCat] = useState({});
-  const [favoriteList, setFavoriteList] = useState([10]);
+  const [favoriteList, setFavoriteList] = useState([]);
 
   async function getCatImage() {
     const image = await API.getCatImage();
@@ -115,14 +114,16 @@ function App() {
   }
 
   function saveFavorite() {
-
     console.log('リスト デフォルト', favoriteList)
     console.log('チェック対象番目', modalCat.idx)
 
-    let newFavoriteList = [true, 0]
+    const newFavoriteList = favoriteList[modalCat.idx] = true
+
+    // let newFavoriteList = [0] = true;
     setFavoriteList(newFavoriteList);
 
     console.log('リスト セット後', favoriteList)
+    console.log('リスト セット後 中', favoriteList[(modalCat.idx)])
 
     // setFavoriteList(modalCat.idx);
     

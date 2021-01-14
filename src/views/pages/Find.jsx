@@ -5,9 +5,10 @@ import star from '../../img/star.svg';
 import API from '../../api'
 
 function FindList(props) {
+      console.log(props.favoriteList);
   const searchCatList = !props.searchCat
   ? []
-    : props.searchCat.map((catList, idx) => <SearchItem catList={catList} openModal={props.openModal} idx={idx}/>)
+    : props.searchCat.map((catList, idx) => <SearchItem catList={catList} openModal={props.openModal} idx={idx} favoriteList={props.favoriteList}/>)
   
   return (
     <div className="find-list">
@@ -43,7 +44,8 @@ function FindList(props) {
 }
   
 function SearchItem(props) {
-  // console.log(props.idx);
+    console.log(props.favoriteList[1]);
+  console.log(props.idx, props.favoriteList[(props.idx)]);
   // console.log(props.catList);
   const cat = {
     image: props.catList,
@@ -101,6 +103,7 @@ function Find(props) {
           searchText={searchText}
           openModal={props.openModal}
           closeModal={props.closeModal}
+          favoriteList={props.favoriteList}
         />
       </div>
     </div>
